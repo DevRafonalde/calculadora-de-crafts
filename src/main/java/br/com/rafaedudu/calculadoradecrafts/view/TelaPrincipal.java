@@ -22,6 +22,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
+        jComboBox_itens.setRenderer(new JPanelComboBoxRenderer());
         jTextArea_itensFaltantes.setEditable(false);
         jTextArea_totalItens.setEditable(false);
         
@@ -34,7 +35,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         
         SelecaoItem teste = new SelecaoItem(new File("src/main/resources/img/Spruce_Fence_JE3 (1).png"), "Cerca de Pinheiro");
-        jComboBox_itens.setRenderer(new JPanelComboBoxRenderer());
         jComboBox_itens.addItem(teste);
     }
 
