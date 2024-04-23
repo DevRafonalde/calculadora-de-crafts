@@ -13,4 +13,5 @@ public class Item {
     private Integer id;
     private String nome;
     private File imagem;
+    private Boolean oficial;
 }
