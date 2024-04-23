@@ -1,24 +1,39 @@
 package br.com.rafaedudu.calculadoradecrafts.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.util.Objects;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class BancoConfig {
-    @Autowired
-    Environment env;
+    public static void connect() {
+        Connection conn = null;
+        try {
+            String url = "jdbc:sqlite:src/main/resources/teste.db";
+            conn = DriverManager.getConnection(url);
+
+            System.out.println("Conexão feita!");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 
     @Bean
     public DataSource dataSource() {
-        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("driverClassName")));
-        dataSource.setUrl(env.getProperty("url"));
-        dataSource.setUsername(env.getProperty("user"));
-        dataSource.setPassword(env.getProperty("password"));
-        return dataSource;
+        DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
+        dataSourceBuilder.driverClassName("org.sqlite.JDBC");
+        dataSourceBuilder.url("jdbc:sqlite:your.db");
+        return dataSourceBuilder.build();
     }
 }
