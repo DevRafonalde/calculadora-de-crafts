@@ -4,6 +4,8 @@
  */
 package br.com.rafaedudu.calculadoradecrafts.view;
 
+import br.com.rafaedudu.calculadoradecrafts.model.entities.Item;
+
 import java.awt.Component;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -33,9 +35,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
         for (MouseListener mouseListener : jTextArea_itensFaltantes.getListeners(MouseListener.class)) {
             jTextArea_itensFaltantes.removeMouseListener(mouseListener);
         }
+        Item testeItem1 = new Item(1, "Cerca de Pinheiro 1", new File("src/main/resources/img/Spruce_Fence_JE3 (1).png"), true);
+        Item testeItem2 = new Item(2, "Cerca de Pinheiro 2", new File("src/main/resources/img/Spruce_Fence_JE3 (1).png"), true);
+        Item testeItem3 = new Item(3, "Cerca de Pinheiro 3", new File("src/main/resources/img/Spruce_Fence_JE3 (1).png"), true);
+        SelecaoItem teste1 = new SelecaoItem(testeItem1);
+        SelecaoItem teste2 = new SelecaoItem(testeItem2);
+        SelecaoItem teste3 = new SelecaoItem(testeItem3);
+        jComboBox_itens.addItem(teste1);
+        jComboBox_itens.addItem(teste2);
+        jComboBox_itens.addItem(teste3);
         
-        SelecaoItem teste = new SelecaoItem(new File("src/main/resources/img/Spruce_Fence_JE3 (1).png"), "Cerca de Pinheiro");
-        jComboBox_itens.addItem(teste);
+        jComboBox_itens.addItemListener((e) -> {
+            SelecaoItem itemSelecionado = (SelecaoItem) e.getItem();
+            System.out.println(itemSelecionado.getItem().toString());
+            // TODO Achar craft baseado no ID do item
+            // TODO Gerar campos de quantidade possuída para cada um dos itens necessários
+            // TODO Adicionar conferência de que foram inseridos apenas números nos campos de quantidade
+        });
     }
 
     /**
@@ -55,9 +71,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel_campos1 = new javax.swing.JPanel();
         jPanel_selecaoItens = new javax.swing.JPanel();
         jComboBox_itens = new javax.swing.JComboBox<>();
-        jPanel_campos2 = new javax.swing.JPanel();
-        jPanel_selecaoItens1 = new javax.swing.JPanel();
+        jPanel_qntdJaPossuida = new javax.swing.JPanel();
         jTextField_qntdJaPossuida = new javax.swing.JTextField();
+        jPanel_campos2 = new javax.swing.JPanel();
+        jPanel_qntdRequerida = new javax.swing.JPanel();
+        jTextField_qntdRequerida = new javax.swing.JTextField();
         jPanel_resultado = new javax.swing.JPanel();
         jPanel_imagem = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -121,13 +139,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel_qntdJaPossuida.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Quantidade já possuída", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+
+        jTextField_qntdJaPossuida.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        javax.swing.GroupLayout jPanel_qntdJaPossuidaLayout = new javax.swing.GroupLayout(jPanel_qntdJaPossuida);
+        jPanel_qntdJaPossuida.setLayout(jPanel_qntdJaPossuidaLayout);
+        jPanel_qntdJaPossuidaLayout.setHorizontalGroup(
+            jPanel_qntdJaPossuidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_qntdJaPossuidaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField_qntdJaPossuida)
+                .addContainerGap())
+        );
+        jPanel_qntdJaPossuidaLayout.setVerticalGroup(
+            jPanel_qntdJaPossuidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_qntdJaPossuidaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField_qntdJaPossuida, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel_campos1Layout = new javax.swing.GroupLayout(jPanel_campos1);
         jPanel_campos1.setLayout(jPanel_campos1Layout);
         jPanel_campos1Layout.setHorizontalGroup(
             jPanel_campos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_campos1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel_selecaoItens, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel_campos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel_selecaoItens, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel_qntdJaPossuida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel_campos1Layout.setVerticalGroup(
@@ -135,45 +176,48 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel_campos1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel_selecaoItens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(493, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel_qntdJaPossuida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(394, Short.MAX_VALUE))
         );
 
         jPanel_insercao.add(jPanel_campos1);
 
-        jPanel_selecaoItens1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Quantidade já possuída", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
+        jPanel_qntdRequerida.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Quantidade requerida", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
-        jTextField_qntdJaPossuida.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextField_qntdRequerida.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        javax.swing.GroupLayout jPanel_selecaoItens1Layout = new javax.swing.GroupLayout(jPanel_selecaoItens1);
-        jPanel_selecaoItens1.setLayout(jPanel_selecaoItens1Layout);
-        jPanel_selecaoItens1Layout.setHorizontalGroup(
-            jPanel_selecaoItens1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_selecaoItens1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel_qntdRequeridaLayout = new javax.swing.GroupLayout(jPanel_qntdRequerida);
+        jPanel_qntdRequerida.setLayout(jPanel_qntdRequeridaLayout);
+        jPanel_qntdRequeridaLayout.setHorizontalGroup(
+            jPanel_qntdRequeridaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_qntdRequeridaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField_qntdJaPossuida)
+                .addComponent(jTextField_qntdRequerida)
                 .addContainerGap())
         );
-        jPanel_selecaoItens1Layout.setVerticalGroup(
-            jPanel_selecaoItens1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_selecaoItens1Layout.createSequentialGroup()
+        jPanel_qntdRequeridaLayout.setVerticalGroup(
+            jPanel_qntdRequeridaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_qntdRequeridaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField_qntdJaPossuida, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_qntdRequerida, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        // TODO Adicionar conferência de que foram inseridos apenas números.
 
         javax.swing.GroupLayout jPanel_campos2Layout = new javax.swing.GroupLayout(jPanel_campos2);
         jPanel_campos2.setLayout(jPanel_campos2Layout);
         jPanel_campos2Layout.setHorizontalGroup(
             jPanel_campos2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel_selecaoItens1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_campos2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel_qntdRequerida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel_campos2Layout.setVerticalGroup(
             jPanel_campos2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_campos2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel_selecaoItens1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel_qntdRequerida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(493, Short.MAX_VALUE))
         );
 
@@ -336,10 +380,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel_geral;
     private javax.swing.JPanel jPanel_imagem;
     private javax.swing.JPanel jPanel_insercao;
+    private javax.swing.JPanel jPanel_qntdJaPossuida;
+    private javax.swing.JPanel jPanel_qntdRequerida;
     private javax.swing.JPanel jPanel_quantidades;
     private javax.swing.JPanel jPanel_resultado;
     private javax.swing.JPanel jPanel_selecaoItens;
-    private javax.swing.JPanel jPanel_selecaoItens1;
     private javax.swing.JPanel jPanel_titulo;
     private javax.swing.JPanel jPanel_total;
     private javax.swing.JScrollPane jScrollPane1;
@@ -347,6 +392,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea_itensFaltantes;
     private javax.swing.JTextArea jTextArea_totalItens;
     private javax.swing.JTextField jTextField_qntdJaPossuida;
+    private javax.swing.JTextField jTextField_qntdRequerida;
     // End of variables declaration//GEN-END:variables
 }
 

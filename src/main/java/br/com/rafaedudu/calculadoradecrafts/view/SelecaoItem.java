@@ -4,6 +4,10 @@
  */
 package br.com.rafaedudu.calculadoradecrafts.view;
 
+import br.com.rafaedudu.calculadoradecrafts.model.entities.Item;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -16,16 +20,18 @@ import javax.imageio.ImageIO;
  */
 public class SelecaoItem extends javax.swing.JPanel {
 
+    private Item itemRecebido;
+
     /**
      * Creates new form SelecaoItem
-     * @param imagem
-     * @param nome
+     *
      */
-    public SelecaoItem(File imagem, String nome) {
+    public SelecaoItem(Item item) {
         try {
+            this.itemRecebido = item;
             initComponents();
-            jLabel_nome.setText(nome);
-            jLabel_imagem.setIcon(new javax.swing.ImageIcon(ImageIO.read(imagem)));
+            jLabel_nome.setText(item.getNome());
+            jLabel_imagem.setIcon(new javax.swing.ImageIcon(ImageIO.read(item.getImagem())));
         } catch (IOException ex) {
             Logger.getLogger(SelecaoItem.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,4 +89,8 @@ public class SelecaoItem extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel_imagem;
     private javax.swing.JLabel jLabel_nome;
     // End of variables declaration//GEN-END:variables
+
+    public Item getItem() {
+        return itemRecebido;
+    }
 }
